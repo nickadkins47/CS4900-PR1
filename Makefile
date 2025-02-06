@@ -4,6 +4,9 @@ train = cd experiments && $(python) ppo_gridnet.py
 eval = cd experiments && $(python) ppo_gridnet_eval.py
 sota = gym-microrts-static-files/agent_sota.pt
 
+hello_world:
+	$(python) hello_world.py
+
 train:
 	$(train) --total-timesteps 100000000 --capture-video --seed 1
 

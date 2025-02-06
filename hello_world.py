@@ -4,7 +4,7 @@ from gym_microrts import microrts_ai
 from gym_microrts.envs.vec_env import MicroRTSGridModeVecEnv
 
 # if you want to record videos, install stable-baselines3 and use its `VecVideoRecorder`
-# from stable_baselines3.common.vec_env import VecVideoRecorder
+from stable_baselines3.common.vec_env import VecVideoRecorder
 
 
 envs = MicroRTSGridModeVecEnv(
@@ -16,7 +16,7 @@ envs = MicroRTSGridModeVecEnv(
     map_paths=["maps/16x16/basesWorkers16x16.xml"],
     reward_weight=np.array([10.0, 1.0, 1.0, 0.2, 1.0, 4.0]),
 )
-# envs = VecVideoRecorder(envs, 'videos', record_video_trigger=lambda x: x % 4000 == 0, video_length=2000)
+envs = VecVideoRecorder(envs, 'videos', record_video_trigger=lambda x: x % 4000 == 0, video_length=2000)
 
 
 def softmax(x, axis=None):
@@ -39,7 +39,7 @@ envs.reset()
 nvec = envs.action_space.nvec
 
 for i in range(10000):
-    # envs.render()
+    envs.render()
     action_mask = envs.get_action_mask()
     action_mask = action_mask.reshape(-1, action_mask.shape[-1])
     action_mask[action_mask == 0] = -9e8
@@ -58,6 +58,6 @@ for i in range(10000):
         axis=1,
     )
     # doing the following could result in invalid actions
-    # action = np.array([envs.action_space.sample()])
+    action = np.array([envs.action_space.sample()])
     next_obs, reward, done, info = envs.step(action)
 envs.close()
